@@ -547,6 +547,7 @@ EXTERN int open_via_path(const char *dir, const char *name, const char *ext,
 EXTERN int sched_geteventno(void);
 EXTERN double sys_getrealtime(void);
 EXTERN int (*sys_idlehook)(void);   /* hook to add idle time computation */
+EXTERN void (sys_callbackhook)(void);
 
 /* Win32's open()/fopen() do not handle UTF-8 filenames so we need
  * these internal versions that handle UTF-8 filenames the same across

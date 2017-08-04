@@ -406,6 +406,8 @@ void sched_set_using_audio(int flag)
     sys_vgui("pdtk_pd_audio %s\n", flag ? "on" : "off");
 }
 
+void (sys_callbackhook)(void);
+
     /* take the scheduler forward one DSP tick, also handling clock timeouts */
 void sched_tick( void)
 {
@@ -430,6 +432,8 @@ void sched_tick( void)
     pd_this->pd_systime = next_sys_time;
     dsp_tick();
     sched_diddsp++;
+
+    if(sys_callbackhook) sys_callbackhook();
 }
 
 /*
