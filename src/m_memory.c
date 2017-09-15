@@ -6,11 +6,8 @@
 #include <string.h>
 #include "m_pd.h"
 #include "m_imp.h"
+#include "zf_log.h"
 
-/* #define LOUD */
-#ifdef LOUD
-#include <stdio.h>
-#endif
 
 /* #define DEBUGMEM */
 #ifdef DEBUGMEM
@@ -22,9 +19,7 @@ void *getbytes(size_t nbytes)
     void *ret;
     if (nbytes < 1) nbytes = 1;
     ret = (void *)calloc(nbytes, 1);
-#ifdef LOUD
-    fprintf(stderr, "new  %lx %d\n", (int)ret, nbytes);
-#endif /* LOUD */
+    ZF_LOGV("new  %lx %d\n", (int)ret, nbytes);
 #ifdef DEBUGMEM
     totalmem += nbytes;
 #endif
@@ -55,9 +50,7 @@ void *resizebytes(void *old, size_t oldsize, size_t newsize)
     ret = (void *)realloc((char *)old, newsize);
     if (newsize > oldsize && ret)
         memset(((char *)ret) + oldsize, 0, newsize - oldsize);
-#ifdef LOUD
-    fprintf(stderr, "resize %lx %d --> %lx %d\n", (int)old, oldsize, (int)ret, newsize);
-#endif /* LOUD */
+    ZF_LOGV("resize %lx %d --> %lx %d\n", (int)old, oldsize, (int)ret, newsize);
 #ifdef DEBUGMEM
     totalmem += (newsize - oldsize);
 #endif
@@ -70,9 +63,7 @@ void freebytes(void *fatso, size_t nbytes)
 {
     if (nbytes == 0)
         nbytes = 1;
-#ifdef LOUD
-    fprintf(stderr, "free %lx %d\n", (int)fatso, nbytes);
-#endif /* LOUD */
+    ZF_LOGV("free %lx %d\n", (int)fatso, nbytes);
 #ifdef DEBUGMEM
     totalmem -= nbytes;
 #endif
